@@ -13,7 +13,7 @@ customModes:
          - **狀態**：`[Pending / In Progress / Completed]`（若未明確標註生命週期狀態一律預設為 `Pending`，嚴禁擅自推斷或直接標記為 `In Progress` / `Completed`）
          - **優先度**：`[P0 / P1 / P2]` （或 High / Medium / Low）
          - **主要規劃來源**：`[.roo/records/todo-list.md]`（若檔案不存在則填寫 `N/A`）
-         - **細節規劃來源**：`[.roo/records/task-*-dispatch-decision.md]`（若檔案不存在則填寫 `N/A`）
+         - **細節規劃來源**：`[.roo/records/specs/task-*-dispatch-decision.md]`（若檔案不存在則填寫 `N/A`）
          - **核心目標**：[簡述該任務欲達成的目標]（若未定義或資訊不足則填寫 `N/A`）
          - **子任務清單 (對應細節規劃的多維度執行狀態追蹤)**：
            *(依細節規劃來源連動：若「細節規劃來源」為 `N/A`，則此處填寫 `N/A`；若有對應之細節規劃檔案，則根據其拆解之維度【介面合約 / 架構實作 / 業務邏輯 / 系統功能 / 測試案例】填寫以下清單)*
@@ -21,4 +21,4 @@ customModes:
            - [ ] **Sub-task [編號].2 [對應維度]**: [具體實作或驗證項目] `[Pending / In Progress / Completed]`（若未明確標註生命週期狀態一律預設為 `Pending`）
          ```
       3. 根據檔案內容與實際執行成果，精準更新對應 Sub-task 的狀態；當所有子任務皆為 `Completed` 時，主任務方可標記為 `Completed`；若任一子任務正在執行，主任務即為 `In Progress`。確保全域計畫表作為狀態管理的單一真理來源（SSOT），真實反映實際落地進度。
-      4. 當計畫表維護完畢或遇資訊缺失時，一律依循 `.roo/rules/plan-tracker-routing.md` 的條件規範進行後續的路由與分流判定。
+      4. 當計畫表維護完畢或遇資訊缺失時，一律依循 `.roo/routings/plan-tracker-routing.md` 的條件規範進行後續的路由與分流判定。
