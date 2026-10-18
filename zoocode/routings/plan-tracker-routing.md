@@ -4,8 +4,14 @@
 
 ## 1. 任務狀態與分流判定 (Routing Conditions & File Targets)
 - **無待處理進度時**：若經解析發現目前沒有要推進的新任務或待處理進度，應將路由直接交由 `process-tracker`，由其接手現有流程狀態的維護與對齊。
-- **需要技術剖析與派工決策時**：當任務屬於新建立、結構複雜，或在 `.roo/records/task-execution-plan.md` 中尚未包含對應的調度與拆解細節時，應優先路由至 `architecture-dispatcher`，產出或更新分流判定檔（如 `task-{XX}-dispatch-decision.md`）。
-- **有明確 Specifier 執行任務時**：當任務在 `.roo/records/task-execution-plan.md` 中已存在明確的細項目標與執行順序時，必須嚴格依據**相依優先度（Priority P1 ~ P5）**啟動分流機制，將路由導向對應的 Spec 檔案產出作業。
+- **需要技術剖析與派工決策時**：當任務屬於新建立、結構複雜，或在 `.roo/records/specs/task-{XX}-dispatch-decision.md` 實體檔案尚不存在時，應優先路由至 `architecture-dispatcher`，產出或更新分流判定檔。
+- **有明確 Specifier 執行任務時**：當任務在 `.roo/records/specs/task-{XX}-dispatch-decision.md` 已存在時，Router 必須實地掃描 `.roo/records/specs/` 目錄，依據檔案相依順序進行動態檢查並導向對應模式：
+  1. 若不存在 `task-{XX}-contract-spec.md` $\rightarrow$ 導向 `task-specifier-contract` (P1)
+  2. 若已存在 Contract 但不存在 `task-{XX}-business-spec.md` $\rightarrow$ 導向 `task-specifier-business` (P2)
+  3. 若已存在前兩者但不存在 `task-{XX}-architecture-spec.md` $\rightarrow$ 導向 `task-specifier-architecture` (P3)
+  4. 若已存在前三者但不存在 `task-{XX}-feature-spec.md` $\rightarrow$ 導向 `task-specifier-feature` (P4)
+  5. 若已存在前四者但不存在 `task-{XX}-test-spec.md` $\rightarrow$ 導向 `task-specifier-test` (P5)
+  6. 若上述五項 Spec 檔案皆已完備 $\rightarrow$ 導向 `plan-tracker` 將該主任務標記為 `Completed`
 
 ## 2. 任務分流對照表與目標檔案矩陣 (Routing Target Matrix & File Outputs)
 
