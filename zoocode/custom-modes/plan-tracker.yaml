@@ -20,5 +20,15 @@ customModes:
            - [ ] **Sub-task [編號].1 [對應維度]**: [具體實作或驗證項目] `[Pending / In Progress / Completed]`（若未明確標註生命週期狀態一律預設為 `Pending`）
            - [ ] **Sub-task [編號].2 [對應維度]**: [具體實作或驗證項目] `[Pending / In Progress / Completed]`（若未明確標註生命週期狀態一律預設為 `Pending`）
          ```
-      3. 根據檔案內容與實際執行成果，精準更新對應 Sub-task 的狀態；當所有子任務皆為 `Completed` 時，主任務方可標記為 `Completed`；若任一子任務正在執行，主任務即為 `In Progress`。確保全域計畫表作為狀態管理的單一真理來源（SSOT），真實反映實際落地進度。
-      4. 當計畫表維護完畢或遇資訊缺失時，一律依循 `.roo/routings/plan-tracker-routing.md` 的條件規範進行後續的路由與分流判定。
+      3. 任務與子任務的判定與更新規則（嚴格區分子任務「存在性」與「狀態」）：
+         - **子任務存在性判定**：
+           - 子任務是否能夠被建立與列出，**完全依據對應之 `.roo/records/specs/task-*-dispatch-decision.md` 實體檔案是否存在**來決定。
+           - 若該派發決策檔案不存在，則「子任務清單」欄位必須直接填寫 `N/A`，絕對禁止擅自拆解或預先建立任何 Sub-task。
+         - **子任務狀態判定**：
+           - 針對已合法建立的子任務，其生命週期狀態（`Pending` / `In Progress` / `Completed`）**依據對應之 `.roo/records/specs/task-{XX}-[type]-spec.md` 實體檔案是否存在來判定：若該規格檔案存在，則狀態為 `Completed`；若檔案不存在，則維持預設的 `Pending`。
+         - **主任務（Task）狀態聯動規則**：
+           - **`Completed`（已完成）**：必須當該主任務下的**所有子任務皆已標記為 `Completed`** 時，方可將主任務標記為 `Completed`。
+           - **`In Progress`（進行中）**：只要**任一子任務處於 `In Progress`**，或者部分子任務已完成但仍有未完成項目時，主任務即必須判定並更新為 `In Progress`。
+           - **`Pending`（待處理）**：若所有子任務皆尚未開始（皆為 `Pending`），或該任務尚無對應的派發決策檔案與子任務時，維持 `Pending`。
+         - **SSOT 原則**：確保全域計畫表作為狀態管理的單一真理來源（Single Source of Truth），嚴格反映實際落地進度，禁止主觀臆測或與底層狀態不符。
+      4. 當計畫表維護完畢或遇資訊缺失時，一律依循 `.roo/rules/workflow-routing-bridge.md` 的條件規範進行後續的路由與分流判定。

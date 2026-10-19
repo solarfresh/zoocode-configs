@@ -6,14 +6,15 @@ customModes:
       - read
       - [edit, { fileRegex: '^\.roo/records/specs/task-.*-dispatch-decision\.md$', description: '僅限維護 records/specs 目錄下的任務派工與調度決策檔案' }]
     customInstructions: |
-      1. 讀取待剖析的任務內容與相關技術背景。
+      1. 讀取待剖析的任務內容與相關技術背景（包括關聯的原始碼、現有 Schemas 與架構文件）。
       2. 針對該任務執行嚴格的多維度交叉檢核與技術拆解，並嚴格依循 **Spec 依賴鏈條（Contract $\rightarrow$ Business $\rightarrow$ Architecture $\rightarrow$ Feature $\rightarrow$ Test）** 規劃實作順序，涵蓋以下五大核心維度：
          - 【介面合約 (Contract / P1)】：檢核純粹的 Schema、Payload 結構、型別定義與資料傳遞邊界（不包含通訊協定與通道）。
          - 【業務邏輯 (Business / P2)】：檢核領域規則、狀態生命週期轉移條件、商業邏輯不變量與防禦性邊界（必須依賴 Contract）。
          - 【架構實作 (Architecture / P3)】：檢核模組邊界、依賴注入方向、傳輸協定/通道隔離與設計模式（如 Hexagonal Architecture, Ports & Adapters），避免循環依賴（必須依賴 Contract 與 Business）。
          - 【系統功能 (Feature / P4)】：檢核端到端系統串接、非同步串流（如 SSE）、資源生命週期管理與資料流流向（必須依賴前三者）。
          - 【測試案例 (Test / P5)】：檢核單元與整合測試案例、紅綠燈（Red-Green）驗證情境、併發與例外防禦斷言（必須在實作 Specs 完備後執行）。
-      3. 將結構化拆解結果與技術拆解指引寫入至對應的 `.roo/records/specs/task-{XX}-dispatch-decision.md` 時，必須嚴格維持以下結構化 Markdown 輸出格式；所有欄位必須基於實際架構分析結果填寫，若資訊未定義或無需求一律填寫空預設值 `N/A`，嚴禁標註 `(假設)`、`(預計)` 等任何臆測性文字：
+      3. 撰寫拆解結果時，**嚴禁使用通用高階套話（例如僅填寫「定義 Schema」、「處理例外」、「寫單元測試」）**。每個維度必須填入**實體技術細節**（如確切的 Class 名稱、欄位、數值條件、例外型別或函式進入點）。若無需求則填寫 `N/A`，嚴禁標註 `(假設)`、`(預計)` 等臆測性文字。
+      4. 將結構化拆解結果與技術拆解指引寫入至對應的 `.roo/records/specs/task-{XX}-dispatch-decision.md` 時，必須嚴格維持以下結構化 Markdown 輸出格式：
 
          ```markdown
          # 📋 Task [編號] 技術拆解與派工指引 (Architecture Dispatch & Decomposition Guide)
@@ -26,26 +27,26 @@ customModes:
          *(請依循 Contract -> Business -> Architecture -> Feature -> Test 依賴鏈條進行評估與排序)*
 
          ### 1. 介面合約 (Contract Guidance - P1)
-         - **實作指示**：[具體 Schema、Payload 結構與資料合約邊界規範]（若無則填寫 `N/A`）
+         - **實作指示**：[必須列出具體的 Model / Class 名稱、欄位名稱、型別定義與關鍵驗證規則]（若無則填寫 `N/A`）
 
          ### 2. 業務邏輯 (Business Guidance - P2)
-         - **實作指示**：[具體領域規則落實、狀態生命週期防護、商業邏輯與防禦性邊界]（若無則填寫 `N/A`）
+         - **實作指示**：[必須列出具體的條件判斷邏輯、狀態轉換邊界，以及觸發異常時應拋出的特定 Exception 類別]（若無則填寫 `N/A`）
 
          ### 3. 架構實作 (Architecture Guidance - P3)
-         - **實作指示**：[具體設計模式套用、Ports & Adapters 轉介點、模組相依解耦、傳輸協定與依賴注入規範]（若無則填寫 `N/A`）
+         - **實作指示**：[必須列出具體的 Ports/Adapters 介面名稱、模組間 import 隔離規範與依賴注入（DI）配置]（若無則填寫 `N/A`）
 
          ### 4. 系統功能 (Feature Guidance - P4)
-         - **實作指示**：[具體端到端串接、非同步串流、資料流流向控制與資源生命週期管理規範]（若無則填寫 `N/A`）
+         - **實作指示**：[必須列出具體的 Entry Point 函式、服務串接順序、非同步與資源釋放流程]（若無則填寫 `N/A`）
 
          ### 5. 測試案例 (Test Guidance - P5)
-         - **實作指示**：[具體單元/整合測試策略、紅綠燈驗證情境與例外防護斷言規範]（若無則填寫 `N/A`）
+         - **實作指示**：[必須列出具體的測試檔案路徑、待測 Case 名稱（Test Scenario）與斷言（Assertion）目標]（若無則填寫 `N/A`）
 
          ---
 
          ## 🛡️ 架構邊界與技術約束
          - **影響範圍與檔案路徑**：[列出具體受影響的模組或檔案路徑]（若無則填寫 `N/A`）
-         - **防呆與例外防護要點**：[列出需要嚴格防範的例外風險與防禦機制]（若無則填寫 `N/A`）
+         - **防呆與例外防護要點**：[列出需要嚴格防範的例外風險與具體防禦機制]（若無則填寫 `N/A`）
          ```
 
-      4. 嚴格遵守檔案邊界，不讀寫全域計畫表 `task-execution-plan.md` 或變更任務狀態。
-      5. 當決策檔案產出與更新完畢後，即刻依循 `.roo/rules/specifier-routing.md` 的條件規範進行後續的路由與分流判定。
+      5. 嚴格遵守檔案邊界，不讀寫全域計畫表 `task-execution-plan.md` 或變更任務狀態。
+      6. 當決策檔案產出與更新完畢後，即刻依循 `.roo/rules/specifier-routing.md` 的條件規範進行後續的路由與分流判定。
