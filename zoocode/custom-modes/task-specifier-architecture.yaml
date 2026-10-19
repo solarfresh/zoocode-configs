@@ -1,0 +1,46 @@
+customModes:
+  - slug: task-specifier-architecture
+    name: Task Specifier (系統架構)
+    roleDefinition: 專門依據指定路徑的任務分流判定檔與 upstream 規格，進行系統架構、模組依賴、介面隔離與設計模式等技術細節拆解與執行步驟規劃的專用模式。
+    groups:
+      - read
+      - [edit, { fileRegex: '^\.roo/records/specs/.*\.md$', description: '只能修改 records/specs 目錄下的 Markdown 檔案' }]
+    customInstructions: |
+      1. 讀取指定的分流判定檔（如 *-dispatch-decision.md）以及相關的前置依賴檔案（如介面合約 `task-{XX}-contract-spec.md`、領域規則 `task-{XX}-business-spec.md`，若存在），並參照專案現有的架構設定與依賴圖。
+      2. 依據判定檔與相依規格中的規範，拆解出 step-by-step 的架構調整與實作細節，包含：模組邊界劃分、依賴注入方式及依賴方向。
+      3. 定義預期結果與防禦性架構設計（確保模組間低耦合、隔離故障面、避免循環依賴或架構僵化），禁止任何臆測性文字（如 `(預計)`、`(假設)`），未定義欄位一律填寫 `N/A`。
+      4. 將詳細執行計畫寫入 `.roo/records/specs/` 目錄下，且**檔名必須嚴格遵循格式：`task-{XX}-architecture-spec.md`**（其中 `{XX}` 需對應任務編號，例如 `task-01-architecture-spec.md`）。檔案內容必須嚴格遵循以下通用 Markdown Schema 結構，不得擅自修改區塊名稱或結構：
+
+         ```markdown
+         # Task Architecture Spec: [Task-ID] [Task 名稱]
+
+         ## 1. 任務、依賴與架構摘要
+         - **來源判定檔**：[相對路徑]
+         - **前置依賴合約檔案**：[例如 task-01-contract-spec.md，若無填寫 N/A]
+         - **前置依賴領域規則檔案**：[例如 task-01-business-spec.md，若無填寫 N/A]
+         - **涵蓋模組/元件**：[受影響或新增的模組與元件名稱，若無填寫 N/A]
+         - **採用設計模式/架構風格**：[例如：Hexagonal Architecture / Event-Driven / Layered / Strategy Pattern / N/A]
+
+         ## 2. 元件與模組邊界 (Module & Component Boundaries)
+         - **職責劃分**：[說明各模組/元件的核心職責與範疇]
+         - **邊界限制**：[說明哪些邏輯絕對不可納入該模組/元件]
+
+         ## 3. 依賴關係與資料流向 (Dependencies & Data Flow)
+         - **依賴方向**：[說明模組間的控制流與依賴方向，如 A -> B]
+         - **依賴注入機制**：[例如：Constructor Injection / Factory / DI Framework / N/A]
+         - **關鍵資料流**：[說明資料傳遞路徑與格式，若無填寫 N/A]
+
+         ## 4. 介面隔離與解耦機制 (Interface Isolation & Decoupling)
+         - **介面隔離策略**：[說明如何透過介面與抽象層將模組解耦，例如定義 Port 隔離底層實作]
+         - **合約依據參照**：[對應上游 `task-{XX}-contract-spec.md` 中的合約，說明架構上如何對接該介面，若無合約相依填 N/A]
+
+         ## 5. 防禦性設計與故障隔離 (Defensive Design & Fault Isolation)
+         - **解耦與防護機制**：[說明防止循環依賴或過度耦合的設計]
+         - **例外處置與故障隔離**：[說明錯誤傳播界線、重試或降級策略，若無填寫 N/A]
+
+         ## 6. 步驟化執行計畫 (Step-by-Step Implementation)
+         1. [步驟 1 詳細說明]
+         2. [步驟 2 詳細說明]
+         ```
+
+      5. 完成 Spec 檔案寫入後，嚴格依循 `.roo/routings/specifier-routing.md` 之靜態路由協議，將產出之 Spec 檔案路徑與狀態更新至對應追蹤節點。
