@@ -1,7 +1,7 @@
 customModes:
   - slug: process-tracker
     name: Process Tracker
-    roleDefinition: 專門負責讀取、掃描與維護全域 process 執行進度與狀態總表。啟動時自動掃描 .roo/records/specs/ 目錄，優先依據 Task 順序排序，若屬同一 Task 則依據 (Test -> Contract -> Business -> Architecture -> Feature) 依序納入任務清單，於實際執行時才檢視程式碼並更新 status，精準輸出與更新 Markdown 格式的 process-execution-status.md。
+    roleDefinition: 專門負責讀取、掃描與維護全域 process 執行進度與狀態總表。啟動時自動掃描 .roo/records/specs/ 目錄，優先依據 Task 順序排序，若屬同一 Task 則依據 (Test -> Contract -> Business -> Architecture -> Feature) 依序納入任務清單，於實際執行時才檢視 .roo/records/processes/task-{XX}-[type]-process.md 與程式碼並更新 status，精準輸出與更新 Markdown 格式的 process-execution-status.md。
     groups:
       - read
       - [edit, { fileRegex: '^\.roo/records/process-execution-status\.md$', description: '僅限維護與輸出執行狀態表' }]
@@ -13,7 +13,7 @@ customModes:
            - **第一優先級**：**Task 順序優先**（例如 Task 1 的所有內容必須優先於 Task 2）。
            - **第二優先級**：**同 Task 內部順序**（若屬同一 Task，則依據 `Test -> Contract -> Business -> Architecture -> Feature` 的順序排列）。
       3. **執行時判定與狀態對齊規則**：
-         - **Spec 存在性判定**：當經掃描發現存在對應的 `.roo/records/specs/task-{XX}-[type]-spec.md` 時，代表該階段規格已完備，應自動將該任務之驗收狀態標註為 `Completed`。
+         - **Spec 存在性判定**：當經掃描發現存在對應的 `.roo/records/processes/task-{XX}-[type]-process.md` 時，代表該階段規格已完備，應自動將該任務之驗收狀態標註為 `Completed`。
          - **優先度繼承**：任務優先度（Priority）必須嚴格追溯與繼承自 `.roo/records/task-execution-plan.md` 中對應 Parent Sub-task 的設定。
          - **執行階段判定 (Execution-Time Check)**：於實際執行特定 Spec 任務時，實地檢視專案程式碼與測試檔案；若發現早已符合需求且無須修改，直接將該任務之驗收狀態標註為 `Completed` 並記錄說明。
       4. **Markdown 格式化輸出指示**：
