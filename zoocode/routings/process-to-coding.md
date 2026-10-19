@@ -9,7 +9,7 @@
 
 ## 2. 狀態檢核與分流判定 (State Check & Routing)
 
-請直接讀取 `.roo/records/process-execution-status.md` 並實地掃描 `.roo/records/specs/` 目錄進行狀態與檔案判定：
+請直接讀取 `.roo/records/process-execution-status.md`、實地掃描 `.roo/records/specs/` 目錄，並檢視 `.roo/records/processes/task-{XX}-[type]-process.md` 進行狀態與任務完成度判定：
 
 ### 情況 A：規格尚未完備或缺少必要 Spec 檔案
 
@@ -21,8 +21,10 @@
 ### 情況 B：對應 Specs 檔案已備妥，準備進行實作（Test-First 順序）
 
 - **判定條件**：目標任務所需的 Spec 實體檔案皆已存在。
+- **過程報告（Process Report）完成度檢核**：
+  - 交接與執行前，必須實地檢視對應的 `.roo/records/processes/task-{XX}-[type]-process.md`。若經確認該階段過程報告已完備且內容顯示任務已完成，則直接判定該階段為 `Completed`，無須重複實作。
 - **實地檔案掃描與「先實作 Test」的優先序分流**：
-  1. **【首要執行】若 Test Spec 已存在但測試未落地** $\rightarrow$ **強制優先**引導 `task-executor` 實作對應的測試案例與紅綠燈驗證。
+  1. **【首要執行】若 Test Spec 已存在但測試未落地（無完整 Process 報告）** $\rightarrow$ **強制優先**引導 `task-executor` 實作對應的測試案例與紅綠燈驗證。
   2. **若 Contract Spec 已存在但合約未實作** $\rightarrow$ 於 Test 完成或搭配後實作合約與介面結構。
   3. **若 Business Spec 已存在但邏輯未實作** $\rightarrow$ 實作領域規則與業務邏輯。
   4. **若 Architecture Spec 已存在但邊界未隔離** $\rightarrow$ 調整模組架構與依賴注入。
@@ -47,7 +49,7 @@
 
 ## 4. Router 導向約束協議 (Router Guardrails)
 
-- **啟動前 Status 確認**：交接至實作或啟動流程前，必須由 `process-tracker` 先行確認 `.roo/records/process-execution-status.md` 的當前狀態與內容。
+- **啟動前 Status 與 Process 報告確認**：交接至實作或啟動流程前，必須由 `process-tracker` 先行確認 `.roo/records/process-execution-status.md` 的當前狀態，並實地檢視 `.roo/records/processes/task-{XX}-[type]-process.md` 確認該階段是否早已完成任務。
 - **Test-First 強制順序**：在所有實作管線中，**必須優先處理 Test 的落地**（即先實作測試），確保紅綠燈驗證機制先行建立，後續順序則依既定架構推進。
 - **無 Spec 絕對禁止 Coding**：未經實地確認 `.roo/records/specs/` 底下對應的 `task-{XX}-[type]-spec.md` 檔案已實質存在前，嚴禁直接將控制權交給 `task-executor`。
 - **過程報告強制產出**：`task-executor` 執行完畢後，必須強制產出對應的 `.roo/records/processes/task-{XX}-[type]-process.md` 實體檔案。
