@@ -9,7 +9,7 @@
 
 ## 2. 狀態檢核與分流判定 (State Check & Routing)
 
-請直接讀取 `.roo/records/process-execution-status.md`、實地掃描 `.roo/records/specs/` 目錄，並檢視 `.roo/records/processes/task-{XX}-[type]-process.md` 進行狀態與任務完成度判定：
+請 `process-tracker` 讀取 `.roo/records/process-execution-status.md`、實地掃描 `.roo/records/specs/` 目錄，並檢視 `.roo/records/processes/task-{XX}-[type]-process.md` 進行狀態與任務完成度判定：
 
 ### 情況 A：規格尚未完備或缺少必要 Spec 檔案
 
