@@ -1,9 +1,3 @@
-將你提供的 `Plan Tracker Routing` 規則整合後，`.roo/routings/transitions/plan-to-spec.md` 不僅具備清晰的 `task-execution-plan.md` 狀態檢查，更完整納入了 **Spec 檔案相依順序（P1 $\rightarrow$ P5 實地掃描清單）**、**轉向 process-tracker 的無待處理進度備援**，以及 **單一真理來源（SSOT）防呆約束**。
-
-以下是完整的整合內容：
-
----
-
 # 🚪 Phase Transition: Macro Plan & Dispatch -> Spec Pipeline
 
 ## 1. 觸發情境與目標
