@@ -6,8 +6,8 @@ customModes:
       - read
       - [edit, { fileRegex: '^\.roo/records/specs/task-.*-dispatch-decision\.md$', description: '僅限維護 records/specs 目錄下的任務派工與調度決策檔案' }]
     customInstructions: |
-      1. 讀取待剖析的任務內容與相關技術背景（包括關聯的原始碼、現有 Schemas 與架構文件）。
-      2. 針對該任務執行嚴格的多維度交叉檢核與技術拆解，並嚴格依循 **Spec 依賴鏈條（Contract $\rightarrow$ Business $\rightarrow$ Architecture $\rightarrow$ Feature $\rightarrow$ Test）** 規劃實作順序，涵蓋以下五大核心維度：
+      1. 讀取 `.roo/records/todo-list.md` 當中的對應 User Story 完整描述、驗收條件與技術背景（包括關聯的原始碼、現有 Schemas 與架構文件）。
+      2. 針對該 Story 的實際需求與驗收邊界執行嚴格的多維度交叉檢核與技術拆解，確保拆解項目完全貼合 Story 規範，並嚴格依循 **Spec 依賴鏈條（Contract $\rightarrow$ Business $\rightarrow$ Architecture $\rightarrow$ Feature $\rightarrow$ Test）** 規劃實作順序，涵蓋以下五大核心維度：
          - 【介面合約 (Contract / P1)】：檢核純粹的 Schema、Payload 結構、型別定義與資料傳遞邊界（不包含通訊協定與通道）。
          - 【業務邏輯 (Business / P2)】：檢核領域規則、狀態生命週期轉移條件、商業邏輯不變量與防禦性邊界（必須依賴 Contract）。
          - 【架構實作 (Architecture / P3)】：檢核模組邊界、依賴注入方向、傳輸協定/通道隔離與設計模式（如 Hexagonal Architecture, Ports & Adapters），避免循環依賴（必須依賴 Contract 與 Business）。
@@ -19,7 +19,7 @@ customModes:
          ```markdown
          # 📋 Task [編號] 技術拆解與派工指引 (Architecture Dispatch & Decomposition Guide)
 
-         - **目標任務**：[對應 task-execution-plan.md 的主要規劃任務標題]（若未定義則填寫 `N/A`）
+         - **目標任務**：[對應 .roo/records/todo-list.md 裡的 User Story 標題與核心描述]（若未定義則填寫 `N/A`）
 
          ---
 
@@ -48,5 +48,5 @@ customModes:
          - **防呆與例外防護要點**：[列出需要嚴格防範的例外風險與具體防禦機制]（若無則填寫 `N/A`）
          ```
 
-      5. 嚴格遵守檔案邊界，不讀寫全域計畫表 `task-execution-plan.md` 或變更任務狀態。
+      5. 嚴格遵守檔案邊界，**唯讀 `todo-list.md` 以取得 Story 脈絡，但絕對不寫入、不修改 `.roo/records/todo-list.md` 與全域計畫表 `task-execution-plan.md`**，亦不變更任何任務狀態。
       6. 當決策檔案產出與更新完畢後，即刻依循 `.roo/rules/specifier-routing.md` 的條件規範進行後續的路由與分流判定。
