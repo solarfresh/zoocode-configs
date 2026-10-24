@@ -28,19 +28,10 @@ customModes:
 
            ---
 
-           ## 📌 當前執行的任務 (Current Task Focus)
-           - **任務類型 / 階段**：`[Contract / Architecture / Test / Business / Feature]`
-           - **對應 Spec 來源**：`[.roo/records/specs/ 下的 Spec 檔案路徑]`（若無則填寫 `N/A`）
-           - **Parent 關聯 (Plan Task)**：`[對應 task-execution-plan.md 中的主任務與 Sub-task]`（若無則填寫 `N/A`）
-           - **優先度 (Priority)**：`[繼承自 task-execution-plan.md]`（若無則填寫 `N/A`）
-           - **核心實作目標**：[具體對應該 Spec 的實作與驗證目標]（若未定義則填寫 `N/A`）
-
-           ---
-
            ## 1. 任務微觀執行與驗收閘門 (Execution & Gate Check)
-           | 執行順序 | 任務與類型 | 優先度 (追溯自 Plan) | 對應 Spec 檔案 (.roo/records/specs/) | Parent 關聯 (Plan Sub-task) | 執行動作 / 程式碼落地 | 驗收狀態 (Status) |
-           | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-           | `[1, 2, 3...]` | `[Task-X (Contract/Architecture...)]` | `[Priority]` | `[Spec 檔案路徑]` | `[Plan Sub-task]` | `[具體實作項目 / 執行判定]` | `[Pending / In Progress / Completed]`（預設為 `Pending`） |
+           | 執行順序 | 任務與類型 | 優先度 (追溯自 Plan) | 對應 Spec 檔案 (.roo/records/specs/) | Parent 關聯 (Plan Sub-task) | 對應 Process 執行報告 (.roo/records/processes/) | 執行動作 / 程式碼落地 | 驗收狀態 (Status) |
+           | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+           | `[1, 2, 3...]` | `[Task-X (Contract/Architecture...)]` | `[Priority]` | `[Spec 檔案路徑]` | `[Plan Sub-task]` | `[Process 報告路徑]`（無則填寫 `N/A`） | `[具體實作項目 / 執行判定]` | `[Pending / In Progress / Completed]`（預設為 `Pending`） |
 
            ---
 
