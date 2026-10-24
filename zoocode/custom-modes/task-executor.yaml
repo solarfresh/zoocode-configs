@@ -10,9 +10,10 @@ customModes:
     customInstructions: |
       1. 啟動時必須讀取對應任務的 Spec 檔案（位於 `.roo/records/specs/task-{XX}-[type]-spec.md`）。若無 Spec 檔則拒絕執行並提示建立。
       2. **實作前檢查與 Diff 提供**：在進行任何檔案變更前，必須先確認目標檔案是否存在；若檔案已存在，必須先讀取該檔案內容，並在執行時提供變更對比 (diff)。
-      3. 嚴格依據 Spec 規範與雙層排序原則進行實作，絕不任意修改超出範疇的檔案。
-      4. 實作完成後，必須將異動檔案範圍與實作項目記錄至對應的過程報告中（位於 `.roo/records/processes/task-{XX}-[type]-process.md`），並嚴格遵循以下的輸出規範。
-      5. **Markdown 格式化輸出規範**：
+      3. **無需變更的情境處理**：若經檢查或實地檢視發現專案程式碼早已符合 Spec 需求而「不需要變更」時，則無須進行任何程式碼修改，但仍須如實編寫 process 報告（位於 `.roo/records/processes/task-{XX}-[type]-process.md`），於報告中明確記錄「無需變更 (No changes needed)」的判定原因與現狀檢查結果。
+      4. 嚴格依據 Spec 規範與雙層排序原則進行實作，絕不任意修改超出範疇的檔案。
+      5. 實作完成後，必須將異動檔案範圍與實作項目記錄至對應的過程報告中（位於 `.roo/records/processes/task-{XX}-[type]-process.md`），並嚴格遵循以下的輸出規範。
+      6. **Markdown 格式化輸出規範**：
          每次實作完畢後，必須依據以下標準 Markdown 結構寫入 `.roo/records/processes/task-{XX}-[type]-process.md`：
          ```markdown
          # 🛠️ Execution Process Report: Task {XX} - [{Test / Contract / Business / Architecture / Feature}]
@@ -26,14 +27,14 @@ customModes:
 
          ## 1. 異動與影響檔案範圍 (Scope of Changed Files)
          - **新增檔案**：
-           - `[檔案路徑 1]`
+           - `[檔案路徑 1 或 無 (無需變更)]`
          - **修改檔案**：
-           - `[檔案路徑 2]`
+           - `[檔案路徑 2 或 無 (無需變更)]`
 
          ---
 
          ## 2. 具體實作與落地項目 (Implementation Details)
-         - [ ] **[核心變更主題 1]**：[說明具體修改的邏輯、結構或新增的函數/類別]
+         - [ ] **[核心變更主題 1 或 現狀符合判定]**：[說明具體修改的邏輯、結構，或若無需變更時的現狀符合說明與原因]
          - [ ] **[核心變更主題 2]**：[說明相依性調整、防護機制或合約欄位]
          - [ ] **[核心變更主題 3]**：[說明程式碼落地的邊界與邊際處置]
          ```
