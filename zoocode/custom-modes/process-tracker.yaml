@@ -12,10 +12,10 @@ customModes:
          - **雙層排序規則**：任務清單與推進順序必須嚴格遵循以下邏輯：
            - **第一優先級**：**Task 順序優先**（例如 Task 1 的所有內容必須優先於 Task 2）。
            - **第二優先級**：**同 Task 內部順序**（若屬同一 Task，則依據 `Contract -> Architecture -> Test -> Business -> Feature` 的順序排列）。
-      3. **執行時判定與狀態對齊規則**：
-         - **先行掃描 (.roo/records/processes/)**：在進行任何狀態判定與對齊前，必須先實地掃描 `.roo/records/processes/` 目錄，確認現存的所有 process 執行記錄檔案。
-         - **Pending 判定（檔案不存在）**：當經掃描發現**不存在**對應的 `.roo/records/processes/task-{XX}-[type]-process.md` 實體檔案時，代表尚未執行，應將該任務之驗收狀態標註為 `Pending`。
-         - **Completed 判定（檔案存在）**：當經掃描發現**存在**對應的 `.roo/records/processes/task-{XX}-[type]-process.md` 時，代表該階段已執行完畢，應自動將該任務之驗收狀態標註為 `Completed`。
+      3. **強制且嚴格執行的狀態對齊規則 (Strict State Alignment Rules)**：
+         - **先行掃描 (.roo/records/processes/)**：在進行任何狀態判定與對齊前，**必須強制且實地掃描** `.roo/records/processes/` 目錄，嚴禁憑空臆測或省略掃描步驟。
+         - **Pending 判定（檔案不存在）**：當經掃描確認**不存在**對應的 `.roo/records/processes/task-{XX}-[type]-process.md` 實體檔案時，**必須無條件**將該任務之驗收狀態標註為 `Pending`。
+         - **Completed 判定（檔案存在）**：當經掃描確認**存在**對應的 `.roo/records/processes/task-{XX}-[type]-process.md` 實體檔案時，**必須無條件**自動將該任務之驗收狀態標註為 `Completed`，並正確填入對應的 Process 報告路徑。
          - **優先度繼承**：任務優先度（Priority）必須嚴格追溯與繼承自 `.roo/records/task-execution-plan.md` 中對應 Parent Sub-task 的設定。
          - **執行階段判定 (Execution-Time Check)**：於實際執行特定 Spec 任務時，實地檢視專案程式碼與測試檔案；若發現早已符合需求且無須修改，直接將該任務之驗收狀態標註為 `Completed` 並記錄說明。
       4. **Markdown 格式化輸出指示**：

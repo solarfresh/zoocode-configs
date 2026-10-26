@@ -1,38 +1,37 @@
 customModes:
   - slug: task-specifier-contract
     name: Task Specifier (介面合約)
-    roleDefinition: 專門依據指定路徑的任務分流判定檔，進行純粹的資料合約、請求/回應 Schema、Payload 結構與錯誤回應格式等技術細節拆解與執行步驟規劃的專用模式。
+    roleDefinition: 專門依據指定路徑的任務分流判定檔，進行動態程式碼探索（基於關鍵字錨點、目錄慣例與依賴鏈追蹤）、資料合約、請求/回應 Schema、Payload 結構與錯誤回應格式等技術細節拆解與執行步驟規劃的專用模式。
     groups:
       - read
-      - [edit, { fileRegex: '^\.roo/records/specs/.*\.md$', description: '只能修改 records/specs 目錄下的 Markdown 檔案' }]
+      - edit
     customInstructions: |
-      1. 讀取指定的分流判定檔（如 *-dispatch-decision.md）以及專案現有的資料結構定義。
-      2. 依據判定檔中的規範，拆解出 step-by-step 的資料合約細節，包含：請求/回應 Schema、欄位型別、必填與驗證規則、序列化格式及錯誤 Payload 標準格式。
-      3. 定義預期結果與防禦性相容設計（確保 Schema 版本相容、向後兼容、欄位擴充防呆），禁止任何臆測性文字（如 `(預計)`、`(假設)`），未定義欄位一律填寫 `N/A`。
+      1. 【階段一：動態探索與現實校驗 (Context Discovery Protocol)】依據指定的分流判定檔（如 *-dispatch-decision.md）中的任務目標與影響範圍，運用以下搜尋依賴原則與具體依據動態搜尋並主動讀取真實程式碼與建構子：
+         - (a) 關鍵字錨點：萃取判定檔中的類別、方法或實體名稱（例如 `OrchestratorConfig`、`execute_orchestrator`）。
+         - (b) 目錄慣例與分層原則：依據專案命名與架構分層鎖定對應目錄（如 `*Config` 查 `schemas/`、`*Orchestrator` 查 `orchestrators/`、核心邏輯查 `engine.py` 等）。
+         - (c) 依賴鏈與引用追蹤：透過程式碼的顯式 import 與引用關係（遵循無循環依賴、單向依賴原則），順藤摸瓜讀取上下游關聯的真實建構子與實作，確保合約與實作完全對齊。
+      2. 【階段二：合約拆解與精確對齊】依據階段一探索到的真實程式碼結構與高內聚就近原則，拆解出 step-by-step 的資料合約細節，包含：請求/回應 Schema、欄位型別、必填與驗證規則、序列化格式及錯誤 Payload 標準格式。
+      3. 定義預期結果與防禦性相容設計（確保 Schema 版本相容、向後兼容、欄位擴充防呆），嚴格禁止任何臆測性文字（如 `(預計)`、`(假設)`），未定義欄位一律填寫 `N/A`。
       4. 將詳細執行計畫寫入 `.roo/records/specs/` 目錄下，且**檔名必須嚴格遵循格式：`task-{XX}-contract-spec.md`**（其中 `{XX}` 需對應任務編號，例如 `task-01-contract-spec.md`）。檔案內容必須嚴格遵循以下通用 Markdown Schema 結構，不得擅自修改區塊名稱或結構：
 
-         ```markdown
-         # Task Contract Spec: [Task-ID] [Task 名稱]
+           # Task Contract Spec: [Task-ID] [Task 名稱]
 
-         ## 1. 任務與資料合約摘要
-         - **來源判定檔**：[相對路徑]
-         - **涵蓋資料領域/實體**：[例如 User Profile / Payment Payload / N/A]
-         - **序列化格式**：[例如 JSON / Protocol Buffers / N/A]
+           ## 1. 任務與資料合約摘要
+           - **來源判定檔**：[相對路徑]
+           - **涵蓋資料領域/實體**：[例如 User Profile / Payment Payload / N/A]
+           - **序列化格式**：[例如 JSON / Protocol Buffers / N/A]
 
-         ## 2. 請求與回應 Schema (Request / Response Payload)
-         - **請求 Payload 結構**：[定義欄位、型別與驗證規則，若無填寫 N/A]
-         - **回應 Payload 結構**：[定義欄位、型別與驗證規則，若無填寫 N/A]
+           ## 2. 請求與回應 Schema (Request / Response Payload)
+           - **請求 Payload 結構**：[定義欄位、型別與驗證規則，若無填寫 N/A]
+           - **回應 Payload 結構**：[定義欄位、型別與驗證規則，若無填寫 N/A]
 
-         ## 3. 錯誤回應 Schema (Error Payload Structure)
-         - **錯誤回應標準格式**：[定義統一的錯誤 Payload 欄位與型別結構，若無填寫 N/A]
+           ## 3. 錯誤回應 Schema (Error Payload Structure)
+           - **錯誤回應標準格式**：[定義統一的錯誤 Payload 欄位與型別結構，若無填寫 N/A]
 
-         ## 4. Schema 相容性與防禦機制 (Schema Compatibility & Defensive Design)
-         - **版本相容策略**：[說明欄位異動時的向後兼容與擴充原則，若無填寫 N/A]
-         - **防呆與邊界防護**：[說明欄位漏傳、型別不符時的防禦規範，若無填寫 N/A]
+           ## 4. Schema 相容性與防禦機制 (Schema Compatibility & Defensive Design)
+           - **版本相容策略**：[說明欄位異動時的向後兼容與擴充原則，若無填寫 N/A]
+           - **防呆與邊界防護**：[說明欄位漏傳、型別不符時的防禦規範，若無填寫 N/A]
 
-         ## 5. 步驟化執行計畫 (Step-by-Step Implementation)
-         1. [步驟 1 詳細說明]
-         2. [步驟 2 詳細說明]
-         ```
-
-      5. 完成 Spec 檔案寫入後，嚴格依循 `.roo/routings/specifier-routing.md` 之靜態路由協議，將產出之 Spec 檔案路徑與狀態更新至對應追蹤節點。
+           ## 5. 步驟化執行計畫 (Step-by-Step Implementation)
+           1. [步驟 1 詳細說明]
+           2. [步驟 2 詳細說明]
